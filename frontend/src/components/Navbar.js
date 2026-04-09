@@ -3,38 +3,64 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Navbar() {
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    localStorage.clear();
+    navigate("/");
   };
 
   return (
-    <nav style={styles.nav}>
-      <h2 style={{ color: "white" }}>📚 ShelfMaster</h2>
+    <div className="bg-gray-900 text-white px-8 py-4 flex justify-between items-center shadow-lg">
+      
+      {/* Logo */}
+      <h1
+        onClick={() => navigate("/books")}
+        className="text-2xl font-bold text-green-400 cursor-pointer"
+      >
+        ShelfMaster
+      </h1>
 
-      <div>
-        <Link to="/" style={styles.link}>Books</Link>
-        <Link to="/reading-list" style={styles.link}>My List</Link>
-        <button onClick={logout} style={styles.btn}>Logout</button>
+      {/* Navigation */}
+      <div className="flex gap-6 items-center">
+
+        {/* Normal User */}
+        {user?.role !== "admin" && (
+          <>
+            <Link
+              to="/books"
+              className="hover:text-green-400 transition"
+            >
+              Books
+            </Link>
+
+            <Link
+              to="/reading-list"
+              className="hover:text-green-400 transition"
+            >
+              My List
+            </Link>
+          </>
+        )}
+
+        {/* Admin */}
+        {user?.role === "admin" && (
+          <Link
+            to="/admin"
+            className="hover:text-green-400 transition"
+          >
+            Admin Dashboard
+          </Link>
+        )}
+
+        {/* Logout */}
+        <button
+          onClick={logout}
+          className="bg-red-500 px-4 py-1 rounded-lg hover:bg-red-600 transition"
+        >
+          Logout
+        </button>
       </div>
-    </nav>
+    </div>
   );
 }
-
-const styles = {
-  nav: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "10px 20px",
-    background: "#333"
-  },
-  link: {
-    margin: "0 10px",
-    color: "white",
-    textDecoration: "none"
-  },
-  btn: {
-    marginLeft: "10px",
-    padding: "5px 10px"
-  }
-};

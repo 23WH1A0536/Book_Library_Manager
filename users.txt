@@ -1,0 +1,9 @@
+user : admin@test.com
+pswd : admin123
+
+user : 23wh1a0536@bvrithyderabad.edu.in
+pswd : Yashu
+
+user : teju@gmail.com
+pswd : 1234
+
