@@ -1,7 +1,5 @@
 const Book = require("../models/Book");
 
-
-// ✅ Create Book (Admin)
 exports.create = async (req, res) => {
   try {
     const { title, author, description, category } = req.body;
@@ -20,7 +18,6 @@ exports.create = async (req, res) => {
 };
 
 
-// ✅ Get All Books
 exports.getAll = async (req, res) => {
   try {
     const books = await Book.find().populate("category");
@@ -30,8 +27,6 @@ exports.getAll = async (req, res) => {
   }
 };
 
-
-// ✅ Get Book By ID
 exports.getById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate("category");
@@ -46,8 +41,6 @@ exports.getById = async (req, res) => {
   }
 };
 
-
-// ✅ Update Book
 exports.update = async (req, res) => {
   try {
     const { title, author, description, category } = req.body;
@@ -69,7 +62,6 @@ exports.update = async (req, res) => {
 };
 
 
-// ✅ Delete Book
 exports.remove = async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);

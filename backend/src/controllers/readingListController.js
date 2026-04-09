@@ -1,7 +1,6 @@
 const ReadingList = require("../models/ReadingList");
 
 
-// ✅ Get user reading list
 exports.getList = async (req, res) => {
   try {
     let list = await ReadingList.findOne({ user: req.user.id })
@@ -18,7 +17,6 @@ exports.getList = async (req, res) => {
 };
 
 
-// ✅ Add book
 exports.addBook = async (req, res) => {
   try {
     const { bookId } = req.params;
@@ -44,7 +42,6 @@ exports.addBook = async (req, res) => {
 };
 
 
-// ✅ Remove book
 exports.removeBook = async (req, res) => {
   try {
     const { bookId } = req.params;
