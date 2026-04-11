@@ -1,5 +1,4 @@
 const Book = require("../models/Book");
-console.log("BOOK SCHEMA:", Book.schema.obj);
 
 // ✅ Create Book
 exports.create = async (req, res) => {
@@ -22,7 +21,7 @@ exports.create = async (req, res) => {
 // ✅ Get All Books
 exports.getAll = async (req, res) => {
   try {
-    const books = await Book.find(); // ❌ removed populate
+    const books = await Book.find();
     res.json(books);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -32,7 +31,7 @@ exports.getAll = async (req, res) => {
 // ✅ Get Book By ID
 exports.getById = async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id); // ❌ removed populate
+    const book = await Book.findById(req.params.id);
 
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
@@ -44,10 +43,9 @@ exports.getById = async (req, res) => {
   }
 };
 
+// ✅ Update Book (FINAL FIXED VERSION)
 exports.update = async (req, res) => {
   try {
-    console.log("UPDATE HIT:", req.body);
-
     const { title, author, description, genre } = req.body;
 
     const book = await Book.findById(req.params.id);
@@ -56,54 +54,20 @@ exports.update = async (req, res) => {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    // ✅ FORCE assign values
-    book.title = title;
-    book.author = author;
-    book.description = description;
+    // ✅ Update fields safely
+    if (title !== undefined) book.title = title;
+    if (author !== undefined) book.author = author;
+    if (description !== undefined) book.description = description;
+    if (genre !== undefined) book.genre = genre;
 
-    // 🔥 IMPORTANT LINE
-    book.set("genre", genre);
-
-    // ✅ FORCE SAVE
     await book.save();
-
-    // 🔍 VERIFY IMMEDIATELY
-    const updated = await Book.findById(req.params.id);
-    console.log("UPDATED DOC:", updated);
-
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-/*// ✅ Update Book
-exports.update = async (req, res) => {
-  try {
-    console.log("UPDATE HIT:", req.body);
-    const { title, author, description, genre } = req.body;
-
-    const book = await Book.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          title,
-          author,
-          description,
-          genre
-        }
-      },
-      { new: true }
-    );
-
-    if (!book) {
-      return res.status(404).json({ message: "Book not found" });
-    }
 
     res.json(book);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};*/
+};
+
 // ✅ Delete Book
 exports.remove = async (req, res) => {
   try {

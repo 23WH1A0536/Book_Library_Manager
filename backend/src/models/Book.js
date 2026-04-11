@@ -2,10 +2,23 @@ const mongoose = require("mongoose");
 
 const bookSchema = new mongoose.Schema(
   {
-    title: String,
-    author: String,
-    description: String,
-    genre: String   // ✅ NEW FIELD
+    title: {
+      type: String,
+      required: true
+    },
+    author: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      default: ""
+    },
+    genre: {
+      type: String,
+      required: true,
+      default: "Unknown"
+    }
   },
   { timestamps: true }
 );
