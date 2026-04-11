@@ -11,11 +11,13 @@ const bookSchema = new mongoose.Schema(
       required: true
     },
     description: {
-      type: String
+      type: String,
+      default: ""
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category"
+    genre: {
+      type: String,
+      required: true,
+      default: "Unknown"
     }
   },
   { timestamps: true }

@@ -10,12 +10,11 @@ const {
   remove
 } = require("../controllers/bookController");
 
-
-// Public
+// 📚 Public Routes
 router.get("/", getAll);
 router.get("/:id", getById);
 
-// Admin
+// 🔐 Admin Routes
 router.post("/", auth, admin, create);
 router.put("/:id", auth, admin, update);
 router.delete("/:id", auth, admin, remove);
